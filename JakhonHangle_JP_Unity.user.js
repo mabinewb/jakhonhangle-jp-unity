@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         JakhonHangle JP Unity (Experimental)
 // @namespace    local.jakhonhangle.unity
-// @version      2.0.0-beta.7
+// @version      2.0.0-beta.7.1
 // @description  JP Unity 4.0.18 PC/DXT: Korean text, same-key Korean UI images scaled to original dimensions and Yostar login labels; Japanese server announcements retained.
 // @license      MIT
 // @homepageURL  https://github.com/mabinewb/jakhonhangle-jp-unity
@@ -306,7 +306,7 @@ function installLoginTranslation(doc = document) {
   return () => observer.disconnect();
 }
 function installPageTitle(doc = document) {
-  const label = '작혼 — 일본 서버';
+  const label = '작혼';
   const update = () => { if (doc.head && doc.title !== label) doc.title = label; };
   const start = () => {
     if (!doc.head) return;
@@ -363,7 +363,7 @@ installLoginTranslation(); installPageTitle();
         manifestReady = true; status('한국어 패치 준비 완료 · 시험 버전'); return result.buffer;
       }
       const result = patchBundle(data, kind); patchCount++;
-      status('한국어 패치 beta.7 · 공지 일본어 / 이미지 선별 교체'); return result.buffer;
+      status('한국어 패치 beta.7.1 · 공지 일본어 / 이미지 선별 교체'); return result.buffer;
     }
     catch (e) { status('패치 적용 실패: ' + e.message, true); return data; }
   };
@@ -384,7 +384,7 @@ installLoginTranslation(); installPageTitle();
       })());
       const source = await sourceCache.get(plan.sourceUrl);
       const result = patchImageBundle(data, source, plan);
-      status('한국어 패치 beta.7 · 대응 이미지 교체 / 공지는 일본어');
+      status('한국어 패치 beta.7.1 · 대응 이미지 교체 / 공지는 일본어');
       return result.buffer;
     } catch (e) {
       console.warn('[JP Korean] Image kept in Japanese:', plan.path, e.message);
