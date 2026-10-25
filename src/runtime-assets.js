@@ -57,7 +57,10 @@ function readAssetFile(bytes){
   const read=o=>{if(!o.tree){const rr=new AssetReader(o.raw);o.tree=assetValue(types[o.typeIndex].root,rr);if(rr.p!==o.raw.length)throw Error('Asset schema byte count mismatch');}return o.tree;};
   const save=()=>{
     const tableBytes=objects.length*24,metaEnd=48+metadataSize,delta=tableBytes-(tableEnd-tableStart),newDataOffset=Math.ceil((metaEnd+delta)/16)*16;
-    let pos=0;const encoded=objects.map(o=>{pos=Math.ceil(pos/8)*8;const start=pos;let data=o.raw;if(o.changed){const w=new AssetWriter();assetValue(types[o.typeIndex].root,w,o.tree,true);data=w.finish();}pos+=data.length;return {o,start,data};});
+    // Unity's object index must remain ordered by signed PathID. Appending
+    // imported objects makes a readable dictionary but breaks native lookups.
+    const ordered=objects.slice().sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0);
+    let pos=0;const encoded=ordered.map(o=>{pos=Math.ceil(pos/8)*8;const start=pos;let data=o.raw;if(o.changed){const w=new AssetWriter();assetValue(types[o.typeIndex].root,w,o.tree,true);data=w.finish();}pos+=data.length;return {o,start,data};});pos=Math.ceil(pos/8)*8;
     const out=new Uint8Array(newDataOffset+pos);out.set(bytes.subarray(0,tableStart));const v=new DataView(out.buffer);v.setInt32(countPosition,objects.length,true);
     let cursor=tableStart;for(const {o,start,data} of encoded){v.setBigInt64(cursor,o.id,true);v.setBigInt64(cursor+8,BigInt(start),true);v.setUint32(cursor+16,data.length,true);v.setInt32(cursor+20,o.typeIndex,true);cursor+=24;out.set(data,newDataOffset+start);}
     out.set(bytes.subarray(tableEnd,metaEnd),cursor);v.setUint32(20,metadataSize+delta);v.setBigInt64(24,BigInt(out.length));v.setBigInt64(32,BigInt(newDataOffset));return out;
