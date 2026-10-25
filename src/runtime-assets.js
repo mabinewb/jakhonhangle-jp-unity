@@ -80,12 +80,16 @@ function autoPatchImages(original,sources){
   const jp=readAssetBundle(original),kr=sources.map(readAssetBundle),classOf=(f,o)=>f.types[o.typeIndex].id;
   const textures=new Map(),sprites=new Map(),jpTextures=jp.objects.filter(o=>classOf(jp,o)===28),jpSprites=jp.objects.filter(o=>classOf(jp,o)===213);
   for(const f of kr)for(const o of f.objects){const id=classOf(f,o);if(id===213){const tree=f.read(o);if(!sprites.has(tree.m_Name))sprites.set(tree.m_Name,{f,o,tree});}if(id===28){const tree=f.read(o),name=resourceKoreanPath(tree.m_Name.replace(/_jp(?=[_.]|$)/g,'_en_kr'));if(!textures.has(name))textures.set(name,{f,o,tree});}}
-  let newId=-1n,changed=0;const imports=new Map(),destType=jp.types.findIndex(t=>t.id===28);
+  const spriteTextureIds=new Set(jpSprites.map(o=>String(jp.read(o).m_RD.texture.m_PathID)));
+  const identity=jp.read(jp.objects.find(o=>classOf(jp,o)===142)).m_Name;
+  let changed=0;const imports=new Map(),destType=jp.types.findIndex(t=>t.id===28);
   const importTexture=(f,id)=>{
     const cacheKey=kr.indexOf(f)+':'+id;if(imports.has(cacheKey))return imports.get(cacheKey);
     const src=f.byId.get(String(id));if(!src||classOf(f,src)!==28||destType<0||f.types[src.typeIndex].hash!==jp.types[destType].hash)throw Error('Texture schema changed');
     const tree=cloneAsset(f.read(src));if(tree.m_StreamData?.path)throw Error('External texture stream');
-    while(jp.byId.has(String(newId)))newId--;const oid=newId--;tree.m_Name='kr_patch_'+tree.m_Name;
+    const sourceIdentity=f.read(f.objects.find(o=>classOf(f,o)===142)).m_Name;
+    let oid=14695981039346656037n;for(const byte of assetEncoder.encode(identity+':KR:'+sourceIdentity+':'+id)){oid=BigInt.asUintN(64,(oid^BigInt(byte))*1099511628211n);}oid=BigInt.asIntN(64,oid);
+    while(oid===0n||jp.byId.has(String(oid)))oid=BigInt.asIntN(64,oid+1n);tree.m_Name='kr_patch_'+tree.m_Name;
     const object={id:oid,typeIndex:destType,tree,changed:true,raw:new Uint8Array()};jp.objects.push(object);jp.byId.set(String(oid),object);imports.set(cacheKey,oid);return oid;
   };
   for(const o of jpSprites){const before=jp.read(o),entry=sprites.get(before.m_Name);if(!entry)continue;const {f,tree:source}=entry;
@@ -100,7 +104,6 @@ function autoPatchImages(original,sources){
     tree.m_Rect.width=before.m_Rect.width;tree.m_Rect.height=before.m_Rect.height;tree.m_RD.texture={m_FileID:0,m_PathID:importTexture(f,source.m_RD.texture.m_PathID)};o.tree=tree;o.changed=true;changed++;
   }
   // Standalone Texture2D users have no Sprite reference; match their names as well.
-  const spriteTextureIds=new Set(jpSprites.map(o=>String(jp.read(o).m_RD.texture.m_PathID)));
   for(const o of jpTextures){const old=jp.read(o),key=resourceKoreanPath(old.m_Name.replace(/_jp(?=[_.]|$)/g,'_en_kr')),entry=textures.get(key);if(!entry||spriteTextureIds.has(String(o.id)))continue;
     if(jp.types[o.typeIndex].hash!==entry.f.types[entry.o.typeIndex].hash||entry.tree.m_StreamData?.path)continue;
     const tree=cloneAsset(entry.tree);tree.m_Name=old.m_Name;
