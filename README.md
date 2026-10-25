@@ -1,8 +1,14 @@
 # JakhonHangle JP Unity — 일본 서버 한국어 패치
 
-현재 버전: **2.0.0-beta.13**. 작혼 일본 서버 PC 웹버전용 비공식 시험판입니다.
+현재 버전: **2.0.0-beta.13.1**. 작혼 일본 서버 PC 웹버전용 비공식 시험판입니다.
 
-[설치·업데이트](https://gist.githubusercontent.com/mabinewb/e919e5a07216e5ff546be8789b070755/raw/JakhonHangle_JP_Unity.user.js?version=2.0.0-beta.13) · [GitHub 직접 다운로드](https://raw.githubusercontent.com/mabinewb/jakhonhangle-jp-unity/main/JakhonHangle_JP_Unity.user.js)
+[설치·업데이트](https://raw.githubusercontent.com/mabinewb/jakhonhangle-jp-unity/main/JakhonHangle_JP_Unity.user.js?version=2.0.0-beta.13.1)
+
+## beta.13.1 변경 사항
+
+- 배포처를 이 GitHub 저장소 하나로 통일했습니다. 설치와 자동 업데이트는 GitHub raw 주소를 사용합니다.
+- 기존 Gist에서는 설치 파일을 내리고 이전 안내만 남깁니다. Gist로 설치한 시험판은 새 설치 주소에서 한 번 수동 업데이트해야 합니다.
+- beta.13과 번역·이미지 처리 동작은 동일합니다.
 
 ## beta.13 변경 사항
 
@@ -23,10 +29,10 @@
 ## 설치
 
 1. Tampermonkey에서 위 설치·업데이트 주소를 엽니다. 소스만 보이면 기존 시험판 편집기에 전체 코드를 붙여넣고 저장합니다.
-2. 버전이 `2.0.0-beta.13`인지 확인하고, 구형 `JakhonHangle_JP_SERVER`와 중복 시험판은 꺼둡니다.
+2. 버전이 `2.0.0-beta.13.1`인지 확인하고, 구형 `JakhonHangle_JP_SERVER`와 중복 시험판은 꺼둡니다.
 3. 게임 탭을 완전히 닫고 [일본 서버](https://game.mahjongsoul.com/)를 다시 엽니다.
 
-왼쪽 위에 `beta.13 · 최신 경로 자동 연결`이 표시되면 목록 처리가 끝난 상태입니다. 개별 화면의 모든 번역 완료를 뜻하지는 않습니다.
+왼쪽 위에 `beta.13.1 · 최신 경로 자동 연결`이 표시되면 목록 처리가 끝난 상태입니다. 개별 화면의 모든 번역 완료를 뜻하지는 않습니다.
 
 ## 지원 범위
 
