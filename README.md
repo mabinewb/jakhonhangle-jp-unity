@@ -1,10 +1,13 @@
 # JakhonHangle JP Unity — 일본 서버 한국어 패치
 
-현재 버전: **2.0.0-beta.11**. 작혼 일본 서버 PC 웹버전용 비공식 시험판입니다.
+현재 버전: **2.0.0-beta.12**. 작혼 일본 서버 PC 웹버전용 비공식 시험판입니다.
 
-[설치·업데이트](https://gist.githubusercontent.com/mabinewb/e919e5a07216e5ff546be8789b070755/raw/JakhonHangle_JP_Unity.user.js?version=2.0.0-beta.11) · [GitHub 직접 다운로드](https://raw.githubusercontent.com/mabinewb/jakhonhangle-jp-unity/main/JakhonHangle_JP_Unity.user.js)
+[설치·업데이트](https://gist.githubusercontent.com/mabinewb/e919e5a07216e5ff546be8789b070755/raw/JakhonHangle_JP_Unity.user.js?version=2.0.0-beta.12) · [GitHub 직접 다운로드](https://raw.githubusercontent.com/mabinewb/jakhonhangle-jp-unity/main/JakhonHangle_JP_Unity.user.js)
 
-## beta.11 변경 사항
+## beta.12 변경 사항
+
+- **beta.11 표시 오류 수정:** 새 텍스처 ID를 묶음마다 -1부터 반복하던 코드를 제거했습니다. JP 묶음·KR 묶음·원본 텍스처 ID로부터 64비트 ID를 생성하고 충돌을 검사합니다. 기존 Sprite가 참조하는 일본판 아틀라스 텍스처는 통째로 교체하지 않습니다.
+- 실제 전체 대응 묶음에서 추가 ID의 전역 중복이 없는지, 원래 아틀라스가 보존되는지 검사했습니다. 실제 게임 화면 확인은 업데이트 후 필요합니다.
 
 - **실행 시 최신 리소스 자동 연결:** 배포 시점의 이미지 묶음 이름·해시·재구성 레시피를 고정하지 않습니다. JP/KR 목록과 각 이미지의 타입 정보를 실제 파일에서 읽습니다.
 - **경로 이동 대응:** 전체 한국어 경로가 없으면 같은 파일명·경로 끝부분으로 후보를 찾습니다. 하나로 확정할 수 있을 때만 연결합니다.
@@ -17,10 +20,10 @@
 ## 설치
 
 1. Tampermonkey에서 위 설치·업데이트 주소를 엽니다. 소스만 보이면 기존 시험판 편집기에 전체 코드를 붙여넣고 저장합니다.
-2. 버전이 `2.0.0-beta.11`인지 확인하고, 구형 `JakhonHangle_JP_SERVER`와 중복 시험판은 꺼둡니다.
+2. 버전이 `2.0.0-beta.12`인지 확인하고, 구형 `JakhonHangle_JP_SERVER`와 중복 시험판은 꺼둡니다.
 3. 게임 탭을 완전히 닫고 [일본 서버](https://game.mahjongsoul.com/)를 다시 엽니다.
 
-왼쪽 위에 `beta.11 · 최신 경로 자동 연결`이 표시되면 목록 처리가 끝난 상태입니다. 개별 화면의 모든 번역 완료를 뜻하지는 않습니다.
+왼쪽 위에 `beta.12 · 최신 경로 자동 연결`이 표시되면 목록 처리가 끝난 상태입니다. 개별 화면의 모든 번역 완료를 뜻하지는 않습니다.
 
 ## 지원 범위
 
